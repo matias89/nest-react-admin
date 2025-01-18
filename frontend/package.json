@@ -1,6 +1,6 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "urbano-frontend",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.2",
@@ -24,8 +24,8 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "start": "export SET NODE_OPTIONS=--openssl-legacy-provider && craco start",
+    "build": "export SET NODE_OPTIONS=--openssl-legacy-provider && craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
@@ -57,7 +57,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:5001",
   "devDependencies": {
     "@types/react-router-dom": "^5.1.7",
     "autoprefixer": "^9",
@@ -66,5 +66,9 @@
     "postcss": "^7",
     "prettier": "^2.2.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
+  },
+  "packageManager": "yarn@1.22.20+sha1.167c8ab8d9c8c3826d3725d9579aaea8b47a2b18",
+  "resolutions": {
+    "@types/react": "^17.0.0"
   }
 }
