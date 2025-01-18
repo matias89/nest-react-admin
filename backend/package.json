@@ -1,6 +1,6 @@
 {
-  "name": "backend",
-  "version": "0.0.1",
+  "name": "urbano-backend",
+  "version": "1.0.0",
   "description": "",
   "author": "",
   "private": true,
@@ -18,7 +18,12 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "newman run e2e/app.e2e.test.json"
+    "test:e2e": "newman run e2e/app.e2e.test.json",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "migration:generate": "yarn typeorm migration:generate -n",
+    "migration:create": "yarn typeorm migration:create -n",
+    "migration:run": "yarn typeorm migration:run",
+    "migration:revert": "yarn typeorm migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^7.5.1",
@@ -31,7 +36,7 @@
     "@nestjs/swagger": "^4.8.0",
     "@nestjs/typeorm": "^7.1.5",
     "bcrypt": "^5.0.1",
-    "class-transformer": "^0.4.0",
+    "class-transformer": "0.4.0",
     "class-validator": "^0.13.1",
     "cookie-parser": "^1.4.5",
     "passport": "^0.4.1",
@@ -89,5 +94,6 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "packageManager": "yarn@1.22.20+sha1.167c8ab8d9c8c3826d3725d9579aaea8b47a2b18"
 }
