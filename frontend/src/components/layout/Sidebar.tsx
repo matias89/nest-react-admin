@@ -22,9 +22,18 @@ export default function Sidebar({ className }: SidebarProps) {
   };
 
   return (
-    <div className={'sidebar ' + className}>
+    <div
+      className={'sidebar ' + className}
+      style={{ backgroundImage: 'url(/sidemenu-bg.jpg)' }}
+    >
       <Link to="/" className="no-underline text-black">
-        <h1 className="font-semibold text-center">Carna Project</h1>
+        <figure>
+          <img
+            src="/urbano-logo-white.png"
+            alt="Urbano Logo"
+            className="w-100 mb-10 mx-auto"
+          />
+        </figure>
       </Link>
       <nav className="mt-5 flex flex-col gap-3 flex-grow">
         <SidebarItem to="/">
@@ -40,7 +49,7 @@ export default function Sidebar({ className }: SidebarProps) {
         ) : null}
       </nav>
       <button
-        className="text-red-500 rounded-md p-3 transition-colors flex gap-3 justify-center items-center font-semibold focus:outline-none"
+        className="text-brand-primary bg-white rounded-md p-3 transition-colors flex gap-3 justify-center items-center font-semibold focus:outline-none"
         onClick={handleLogout}
       >
         <LogOut /> Logout

@@ -32,7 +32,9 @@ export default function Login() {
   return (
     <div className="h-full flex justify-center items-center">
       <div className="card shadow">
-        <h1 className="mb-3 text-center font-semibold text-4xl">Login</h1>
+        <div className="mb-3">
+          <img src="/urbano-logo.png" alt="Urbano logo" className="mx-auto" />
+        </div>
         <hr />
         <form
           className="flex flex-col gap-5 mt-8 w-64"
