@@ -22,7 +22,7 @@ import { Role } from '../enums/role.enum';
 import { CreateCourseDto, UpdateCourseDto } from './course.dto';
 import { Course } from './course.entity';
 import { CourseQuery } from './course.query';
-import { CourseService } from './course.service';
+import { CourseService, CourseResult } from './course.service';
 
 @Controller('courses')
 @ApiBearerAuth()
@@ -41,7 +41,7 @@ export class CourseController {
   }
 
   @Get()
-  async findAll(@Query() courseQuery: CourseQuery): Promise<Course[]> {
+  async findAll(@Query() courseQuery: CourseQuery): Promise<CourseResult> {
     return await this.courseService.findAll(courseQuery);
   }
 

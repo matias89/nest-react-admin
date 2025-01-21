@@ -14,9 +14,14 @@ import TableItem from '../shared/TableItem';
 interface UsersTableProps {
   data: Course[];
   isLoading: boolean;
+  onUpdate?: (id: string) => void;
 }
 
-export default function CoursesTable({ data, isLoading }: UsersTableProps) {
+export default function CoursesTable({
+  data,
+  isLoading,
+  onUpdate,
+}: UsersTableProps) {
   const { authenticatedUser } = useAuth();
   const [deleteShow, setDeleteShow] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
@@ -37,6 +42,7 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
       setIsDeleting(true);
       await courseService.delete(selectedCourseId);
       setDeleteShow(false);
+      onUpdate && onUpdate(selectedCourseId);
     } catch (error) {
       setError(error.response.data.message);
     } finally {
@@ -50,6 +56,7 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
       setUpdateShow(false);
       reset();
       setError(null);
+      onUpdate && onUpdate(selectedCourseId);
     } catch (error) {
       setError(error.response.data.message);
     }

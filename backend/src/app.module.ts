@@ -7,6 +7,7 @@ import { ContentModule } from './content/content.module';
 import { CourseModule } from './course/course.module';
 import { StatsModule } from './stats/stats.module';
 import { UserModule } from './user/user.module';
+import { ImageModule } from './images/images.module';
 
 @Module({
   imports: [
@@ -17,8 +18,7 @@ import { UserModule } from './user/user.module';
     CourseModule,
     ContentModule,
     StatsModule,
+    ImageModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}

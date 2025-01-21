@@ -5,6 +5,7 @@ import { useQuery } from 'react-query';
 
 import CoursesTable from '../components/courses/CoursesTable';
 import Layout from '../components/layout';
+import Paginator from '../components/paginator/Paginator';
 import Modal from '../components/shared/Modal';
 import useAuth from '../hooks/useAuth';
 import CreateCourseRequest from '../models/course/CreateCourseRequest';
@@ -13,21 +14,25 @@ import courseService from '../services/CourseService';
 export default function Courses() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(3);
+  const [order, setOrder] = useState<number>(1);
 
   const [addCourseShow, setAddCourseShow] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+  const [onUpdate, setOnUpdate] = useState<string>('');
 
   const { authenticatedUser } = useAuth();
   const { data, isLoading } = useQuery(
-    ['courses', name, description],
+    ['courses', name, description, page, limit, order, addCourseShow, onUpdate],
     () =>
       courseService.findAll({
         name: name || undefined,
         description: description || undefined,
+        page,
+        limit,
+        order,
       }),
-    {
-      refetchInterval: 1000,
-    },
   );
 
   const {
@@ -36,6 +41,10 @@ export default function Courses() {
     formState: { isSubmitting },
     reset,
   } = useForm<CreateCourseRequest>();
+
+  const handleOnPageChange = (page: number) => {
+    setPage(page);
+  };
 
   const saveCourse = async (createCourseRequest: CreateCourseRequest) => {
     try {
@@ -77,10 +86,35 @@ export default function Courses() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+          <select
+            className="input"
+            onChange={(e) => setOrder(parseInt(e.target.value))}
+          >
+            <option value={1}>Sort by Name ASC</option>
+            <option value={2}>Sort by name DESC</option>
+          </select>
+          <select
+            className="input"
+            onChange={(e) => setLimit(parseInt(e.target.value))}
+          >
+            <option>3</option>
+            <option>5</option>
+            <option>10</option>
+          </select>
         </div>
       </div>
 
-      <CoursesTable data={data} isLoading={isLoading} />
+      <CoursesTable
+        data={data?.data}
+        isLoading={isLoading}
+        onUpdate={setOnUpdate}
+      />
+      <Paginator
+        totalItems={data?.total}
+        currentPage={page}
+        itemsPerPage={limit}
+        onPageChange={handleOnPageChange}
+      />
 
       {/* Add User Modal */}
       <Modal show={addCourseShow}>
