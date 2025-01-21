@@ -4,3 +4,8 @@ export default interface Course {
   description: string;
   dateCreated: Date;
 }
+
+export interface CourseResult {
+  data: Course[];
+  total: number;
+}

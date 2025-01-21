@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Image } from '../images/images.entity';
 import { Role } from '../enums/role.enum';
 
 @Entity()
@@ -30,4 +30,7 @@ export class User extends BaseEntity {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @OneToMany(() => Image, image => image.user)
+  profileImage: Image[];
 }

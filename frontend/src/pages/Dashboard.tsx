@@ -1,12 +1,15 @@
+import { Book } from 'react-feather';
 import { useQuery } from 'react-query';
 
-import UpdateProfile from '../components/dashboard/UpdateProfile';
 import Layout from '../components/layout';
+import courseService from '../services/CourseService';
 import statsService from '../services/StatsService';
 
 export default function Dashboard() {
   const { data, isLoading } = useQuery('stats', statsService.getStats);
-
+  const { data: courses } = useQuery('courses', () =>
+    courseService.findAll({ page: 1, limit: 3 }),
+  );
   return (
     <Layout>
       <h1 className="font-semibold text-3xl mb-5">Dashboard</h1>
@@ -34,8 +37,26 @@ export default function Dashboard() {
             </div>
           </div>
         ) : null}
-
-        <UpdateProfile />
+      </div>
+      <div className="mt-5">
+        <h2 className="font-semibold text-2xl">Recent Activities</h2>
+        <hr />
+        <div className="mt-5">
+          {courses?.data?.length === 0 && (
+            <p className="font-semibold">No recent activities</p>
+          )}
+          {courses?.data?.length > 0 && (
+            <ul className="flex flex-col gap-3 flex">
+              {courses.data.map((course) => (
+                <li key={course.id} className="flex gap-2 items-center">
+                  <Book />{' '}
+                  <span className="text-brand-primary">{course.name}</span> was
+                  recently added
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </Layout>
   );

@@ -5,6 +5,11 @@ import { CreateCourseDto, UpdateCourseDto } from './course.dto';
 import { Course } from './course.entity';
 import { CourseQuery } from './course.query';
 
+export interface CourseResult {
+  data: Course[];
+  total: number;
+}
+
 @Injectable()
 export class CourseService {
   async save(createCourseDto: CreateCourseDto): Promise<Course> {
@@ -14,17 +19,25 @@ export class CourseService {
     }).save();
   }
 
-  async findAll(courseQuery: CourseQuery): Promise<Course[]> {
-    Object.keys(courseQuery).forEach((key) => {
-      courseQuery[key] = ILike(`%${courseQuery[key]}%`);
+  async findAll(courseQuery: CourseQuery): Promise<CourseResult> {
+
+    const { page = 1, limit = 10, order, ...filters } = courseQuery;
+    const skip = (page - 1) * limit;
+
+    Object.keys(filters).forEach((key) => {
+      filters[key] = ILike(`%${filters[key]}%`);
     });
-    return await Course.find({
-      where: { ...courseQuery },
+
+    const [data, total] = await Course.findAndCount({
+      where: { ...filters },
       order: {
-        name: 'ASC',
-        description: 'ASC',
+        name: Number(order) === 1 ? 'ASC' : 'DESC',
       },
+      skip,
+      take: limit,
     });
+
+    return { data, total };
   }
 
   async findById(id: string): Promise<Course> {

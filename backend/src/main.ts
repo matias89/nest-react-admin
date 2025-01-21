@@ -30,8 +30,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
-    .setTitle('Carna Project API')
-    .setDescription('Carna Project API Documentation')
+    .setTitle('Urbano Project API')
+    .setDescription('Urbano Project API Documentation')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
